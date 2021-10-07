@@ -10,7 +10,7 @@ class LinkedList:
     def print_list(self):
         cur_node = self.head 
         while cur_node:
-            print('a', cur_node.data)
+            print('curr', cur_node.data)
             cur_node = cur_node.next
 
     def append(self, data):
@@ -276,6 +276,130 @@ class LinkedList:
             q.next = self.head 
             self.head = p.next
             p.next = None
+    
+    def is_palindrome1(self):
+        s = ''
+        p = self.head 
+
+        while p:
+            s += p.data
+            p = p.next 
+        return s == s[::-1]
+    
+    def is_palindrome2(self):
+        # stack
+        p = self.head 
+        s = []
+
+        # makes stack
+        while p:
+            s.append(p.data)
+            p = p.next 
+        p = self.head 
+
+        # now comparing stack and linkedlist
+        while p:
+            data = s.pop()
+            if p.data != data:
+                return False
+            p = p.next 
+        return True
+    
+    def is_palindrome3(self):
+        # two pointers
+        if self.head:
+            p = self.head 
+            q = self.head 
+            prev = []
+        
+            i=0 
+            while q:
+                prev.append(q)
+                q = q.next 
+                i += 1 
+            q = prev[i-1]
+
+            count = 1
+
+            while count <= i//2 + 1:
+                if prev[-count].data != p.data:
+                    return False
+                p = p.next
+                count += 1
+                return True 
+        else:
+            return True
+    
+    def move_tail_to_head(self):
+        if self.head and self.head.next:
+            last = self.head 
+            second_last = None 
+
+            while last.next:
+                second_last = last 
+                last = last.next 
+            last.next = self.head 
+            second_last.next = None
+            self.head = last
+    
+    def sum_two_lists(self, llist):
+
+        def summer(sls):
+            count = 1
+            p = sls.head 
+            sumlist = 0 
+            while p:
+                total = p.data * count
+                sumlist += total
+                p = p.next
+                count *= 10
+            return sumlist
+
+        sum1 = summer(self)
+        sum2 = summer(llist)
+        print('summm', sum1 + sum2)
+        total = sum1 + sum2
+        new = LinkedList()
+
+    def sum_two_lists2(self, llist):
+        p = self.head 
+        q = llist.head 
+
+        sum_llist = LinkedList()
+
+        carry = 0 
+
+        while p or q:
+            if not p:
+                i = 0 
+            else: 
+                i = p.data 
+            
+            if not q:
+                j = 0 
+            else:
+                j = q.data
+            s = i + j + carry 
+
+            if s >= 10:
+                carry = 1
+                remainder = s%10 
+                sum_llist.append(remainder)
+            else:
+                carry = 0 
+                sum_llist.append(s)
+            
+            if p:
+                p = p.next 
+            if q:
+                q = q.next 
+        return sum_llist.print_list()
+
+
+
+
+
+
 
 # llist = LinkedList()
 # llist.append("A")
@@ -349,13 +473,54 @@ class LinkedList:
 # print(llist_2.count_occurences_recursive(llist_2.head, 4))
 
 #ROTATE
-llist = LinkedList()
-llist.append(1)
-llist.append(2)
-llist.append(3)
-llist.append(4)
-llist.append(5)
-llist.append(6)
+# llist = LinkedList()
+# llist.append(1)
+# llist.append(2)
+# llist.append(3)
+# llist.append(4)
+# llist.append(5)
+# llist.append(6)
 
-llist.rotate(4)
-llist.print_list()
+# llist.rotate(4)
+# llist.print_list()
+#PALINDROME 
+# llist = LinkedList()
+
+
+# llist_2 = LinkedList()
+# llist_2.append("A")
+# llist_2.append("B")
+# llist_2.append("C")
+
+# print(llist.is_palindrome1())
+# print(llist.is_palindrome2())
+# print(llist.is_palindrome3())
+# print(llist_2.is_palindrome1())
+# print(llist_2.is_palindrome2())
+# print(llist_2.is_palindrome3())
+
+#MOVE TAIL TO HEAD
+# llist = LinkedList()
+# llist.append(1)
+# llist.append(2)
+# llist.append(3)
+# llist.append(4)
+# llist.append(5)
+# llist.append(6)
+
+# llist.move_tail_to_head()
+# llist.print_list()
+
+#SUM TWO LISTS
+llist1 = LinkedList()
+llist1.append(5)
+llist1.append(6)
+llist1.append(3)
+
+llist2 = LinkedList()
+llist2.append(8)
+llist2.append(4)
+llist2.append(2)
+
+llist1.sum_two_lists2(llist2)
+# llist1.print_list()
